@@ -1,12 +1,11 @@
-# various folders starting with input_*, moving files from each folder
 import os
 import shutil
 
 # Specify the source directory containing the input folders
 source_directory = './'
 
-# Specify the destination directory to move the renamed files
-destination_directory = '~/Documents/'
+# Prompt the user to enter the destination directory
+destination_directory = input("Enter the destination directory: ")
 
 # Get a list of all folders in the source directory
 folders = [folder for folder in os.listdir(source_directory) if os.path.isdir(os.path.join(source_directory, folder)) and folder.startswith('input_')]
