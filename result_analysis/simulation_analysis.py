@@ -76,7 +76,7 @@ with open(output_file, 'w') as f:
             x1, x2, x3 = map(float, lines[2].split())
             y1, y2, y3 = map(float, lines[3].split())
             z1, z2, z3 = map(float, lines[4].split())
-            volume = np.sqrt(x1 ** 2 + x2 ** 2 + x3 ** 2) + np.sqrt(y1 ** 2 + y2 ** 2 + y3 ** 2) + np.sqrt(z1 ** 2 + z2 ** 2 + z3 ** 2)
+            volume = np.sqrt(x1 ** 2 + x2 ** 2 + x3 ** 2) * np.sqrt(y1 ** 2 + y2 ** 2 + y3 ** 2) * np.sqrt(z1 ** 2 + z2 ** 2 + z3 ** 2)
 
         # Calculate per-atom values
         peratomE = totalE / number_of_atoms
