@@ -11,21 +11,22 @@ def get_number_of_ions(file_path):
 
 def track_strings_in_file(file_path, lines2read):
     found_string1 = False
-    lines_to_skip = 3
+    lines_to_skip = 4
     lines_to_read = lines2read
     lines = []
 
     with open(file_path, 'r') as file:
         for line in file:
+            if 'magnetization (x)' in line:
+                found_string1 = True
+                lines = []
+                
             if found_string1:
                 if lines_to_skip > 0:
                     lines_to_skip -= 1
                 elif lines_to_read > 0:
                     lines.append(line.strip())
                     lines_to_read -= 1
-
-            if 'magnetization (x)' in line:
-                found_string1 = True
 
             if lines_to_read == 0:
                 break
@@ -53,10 +54,11 @@ for filename in os.listdir(directory):
         trailing_number = filename.split('_')[-1]
         lines2read = int(get_number_of_ions(outcar_filepath))
         lines_between_strings = track_strings_in_file(outcar_filepath, lines2read)
-
+        # print(lines_between_strings)
         if lines_between_strings:
             elements = [line.split()[-1] for line in lines_between_strings]
-            if float(elements[-1]) < magcutoff:
+            if any(float(i) < magcutoff for i in elements):
+                # print(elements)
                 for extension in file_extensions:
                     matching_file = f'{extension}_{trailing_number}'
                     matching_filepath = os.path.join(directory, matching_file)
@@ -65,3 +67,7 @@ for filename in os.listdir(directory):
 
                 if os.path.isfile(outcar_filepath):
                     os.rename(outcar_filepath, os.path.join(backup_dir, filename))
+            else:
+                print("All values in 'elements' are greater than or equal to the cutoff.")
+                break
+
