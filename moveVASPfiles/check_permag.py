@@ -55,7 +55,7 @@ for filename in os.listdir(directory):
         lines_between_strings = track_strings_in_file(outcar_filepath, lines2read)
 
         if lines_between_strings:
-            elements = lines_between_strings[0].split()
+            elements = [line.split()[-1] for line in lines_between_strings]
             if float(elements[-1]) < magcutoff:
                 for extension in file_extensions:
                     matching_file = f'{extension}_{trailing_number}'
